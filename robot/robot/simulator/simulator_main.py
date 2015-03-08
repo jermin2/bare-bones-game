@@ -3,7 +3,7 @@ Created on 1/03/2015
 
 @author: Jermin
 '''
-import sys,pygame, math
+import sys, pygame
 from simulator.robot import robot
 from pygame.constants import K_RIGHT, K_LEFT, K_UP, K_DOWN
 
@@ -53,50 +53,52 @@ class Simulator(object):
         someWall = block(50,50,100,10)
         self.walls = [someWall]
 
-
     
-    def move(self, key):
-        """Move in the direction of the key"""
-        move_distance = [0,0]
+    def event_handle(self):
         
-        if(key == K_UP):
-            self.player.moveForward()
-        if(key == K_DOWN):
-            self.player.moveBackward()
-        if(key == K_RIGHT):
-            self.player.rotation -= 10
-        if(key == K_LEFT):
-            self.player.rotation += 10
-                           
-        return move_distance
     
+        key = pygame.key.get_pressed()
+        """Move in the direction of the key"""   
+        self.player.move_amount= [0 ,0]
+        if key[pygame.K_UP]:
+            self.player.moveForward()
+        if key[pygame.K_DOWN]:
+            self.player.moveBackward()
+        if key[pygame.K_RIGHT]:
+            self.player.rotation -= 10
+        if key[pygame.K_LEFT]:
+            self.player.rotation += 10   
 
          
     def main(self):
         
+        #Some Constants
         black = 0,0,0
         white = 255,255,255
         
+        #Standard Game Stuff
+        running = True
+        clock = pygame.time.Clock()
  
         #starting position
         ballrect = self.robotImg.get_rect()
         ballrect = ballrect.move(self.width/4 - ballrect.width/2, self.height/2 - ballrect.height/2)
         self.player.location = [ballrect.x, ballrect.y]
-        
-        print (ballrect)
-        while 1:
-            self.player.move_amount= [0 ,0]
+         
+        while True:
+            clock.tick(30) #30 FPS
+            
             for event in pygame.event.get():
-                if event.type == pygame.QUIT: sys.exit()
-                elif event.type == pygame.KEYDOWN:
-                    if ((event.key == K_RIGHT)
-                    or (event.key == K_LEFT)
-                    or (event.key == K_UP)
-                    or (event.key == K_DOWN)):
-                        self.move(event.key)
+                if event.type == pygame.QUIT: 
+                    running = False
+                    pygame.quit()
+                    break
+            if not running:
+                break
+
+
+            self.event_handle()
                 
-            #Draw the walls
-            #
             #Update location
             #Update Travel
             ballrect = ballrect.move(self.player.move_amount)
@@ -104,14 +106,16 @@ class Simulator(object):
             robotImg_t, ballrect = rot_center(self.robotImg, ballrect, self.player.rotation)
             self.player.location = ballrect.center
             
-            
+            #Clear the screen
             self.screen.fill(white)
+            
+            #Draw the walls
             for b in self.walls:
                 pygame.draw.rect(self.screen, b.colour, b.getRect(), 0)
             
             #Draw Robot
             self.screen.blit(robotImg_t, ballrect)
-            #print (ballrect)
+            #Draw range finding stuff
             pygame.draw.line(self.screen, black, (ballrect.center), self.player.getLeftLine(), 1)
             pygame.draw.line(self.screen, black, (ballrect.center), self.player.getRightLine(), 1)
             
