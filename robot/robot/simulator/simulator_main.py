@@ -3,9 +3,8 @@ Created on 1/03/2015
 
 @author: Jermin
 '''
-import sys, pygame
+import pygame
 from simulator.robot import robot
-from pygame.constants import K_RIGHT, K_LEFT, K_UP, K_DOWN
 
 
 def rot_center(image, rect, angle):
