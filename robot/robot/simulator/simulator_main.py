@@ -41,8 +41,6 @@ class Simulator(object):
         
         self.screen = pygame.display.set_mode(size)
         
-        self.ball = pygame.image.load("ball.bmp")
-        
         self.player = robot()
         
         #robot image
