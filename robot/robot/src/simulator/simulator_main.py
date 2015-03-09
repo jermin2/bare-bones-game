@@ -4,7 +4,7 @@ Created on 1/03/2015
 @author: Jermin
 '''
 import pygame
-from simulator.robot import robot
+from src.simulator.robot import robot
 
 
 def rot_center(image, rect, angle):

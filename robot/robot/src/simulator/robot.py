@@ -20,6 +20,10 @@ class robot(object):
         self.move_amount = [0,0]
         self.rotation = float(180)
         self.rangeDistance = 300
+    
+    def drive(self,A,B):
+        #TODO
+        1+1
        
     def moveForward(self):
         rotation_rad = self.rotation/180*math.pi
