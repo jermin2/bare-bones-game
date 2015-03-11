@@ -44,7 +44,7 @@ class Simulator(object):
         self.player = robot()
         
         #robot image
-        self.robotImg = pygame.image.load("robot.jpg")
+        self.robotImg = pygame.image.load("robot.bmp")
         self.robotImg = pygame.transform.scale(self.robotImg, (40, 40))
         
         someWall = block(50,50,100,10)
